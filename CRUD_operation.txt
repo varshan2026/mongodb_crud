@@ -1,0 +1,85 @@
+// Create a new database named "library" and switch to it. 
+
+use library
+
+----------------------------------------------------------------------------------------------------------------------
+
+// Create a collection named "books" with fields: title, author, and published_year.
+
+db.createCollection("books")
+
+----------------------------------------------------------------------------------------------------------------------
+
+// Insert a document into the "books" collection with the details of your favorite book.
+
+db.books.insertOne({
+    title: "The Alchemist",
+    author: "Paulo Coelho",
+    published_year: 1988
+})
+
+db.books.insertMany([
+    {
+        title: "To Kill a Mockingbird",
+        author: "Harper Lee",
+        published_year: 1960
+    },
+    {
+        title: "1984",
+        author: "George Orwell",
+        published_year: 1949
+    },
+    {
+        title: "The Great Gatsby",
+        author: "F. Scott Fitzgerald",
+        published_year: 1925
+    }
+])
+
+----------------------------------------------------------------------------------------------------------------------
+
+// Retrieve all documents from the "books" collection. 
+
+db.books.find()
+
+----------------------------------------------------------------------------------------------------------------------
+
+// Find and display only the documents where the author is "J.K. Rowling"
+
+db.books.find({ author: "Harper Lee" })
+
+----------------------------------------------------------------------------------------------------------------------
+
+// Fetch and display the document with the earliest published year
+
+db.books.find().sort({ published_year: 1 }).limit(1)
+
+----------------------------------------------------------------------------------------------------------------------
+
+//  Update the published year of the book with the title "The Alchemist" to the current year. 
+
+db.books.updateOne(
+    { title: "The Alchemist" }, 
+    { $set: { published_year: new Date().getFullYear() } }
+)
+
+----------------------------------------------------------------------------------------------------------------------
+
+// Add a new field "genre" with the value "Mystery" to all documents in the "books" collection.
+
+db.books.updateMany(
+    {}, 
+    { $set: { genre: "Mystery" } }
+)
+
+----------------------------------------------------------------------------------------------------------------------
+
+//  Remove the document with the title "1984" from the "books" collection
+
+db.books.deleteOne({ title: "1984" })
+
+----------------------------------------------------------------------------------------------------------------------
+
+// Delete all documents from the "books" collection where the published year is before 2000.
+
+db.books.deleteMany({ published_year: { $lt: 2000 } })
